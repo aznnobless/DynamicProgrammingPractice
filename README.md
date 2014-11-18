@@ -15,3 +15,10 @@ There are two ways of doing this.
 Note that divide and conquer is slightly a different technique. In that, we divide the problem in to non-overlapping subproblems and solve them independently, like in mergesort and quick sort.
 
 Complementary to Dynamic Programming are Greedy Algorithms which make a decision once and for all every time they need to make a choice, in such a way that it leads to a near-optimal soultion. A Dynamic Programming solution is based on the principal of Mathmatical Induction greedy algorithms require other kinds of proof.
+
+
+### Examples ###
+
+* Fibonacci with DP
+* LCS
+* Minimum Step To One
