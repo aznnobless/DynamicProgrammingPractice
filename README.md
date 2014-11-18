@@ -22,3 +22,4 @@ Complementary to Dynamic Programming are Greedy Algorithms which make a decision
 * Fibonacci with DP
 * LCS
 * Minimum Step To One
+* Laserfiche Warmingup Interview Problem (Variation of Coin DP) "NOT COMPLETED"
