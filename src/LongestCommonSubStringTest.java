@@ -1,6 +1,12 @@
 /**
  * Created by aznnobless on 11/17/14.
  */
+
+/**
+ * NOTE: This code can be optimized. I will optimize it later.
+ * TODO: Optimize this code.
+ */
+
 public class LongestCommonSubStringTest {
 
     public static void main(String[] args) {
