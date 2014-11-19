@@ -2,6 +2,9 @@
  * Created by aznnobless on 11/18/14.
  */
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Laserfiche Warming up Interview Problem.
  *
@@ -30,6 +33,8 @@ public class StampDispenser {
     private int[] availableStamps;
     private int[][] dp;
 
+    private boolean debugMode = false;
+
     public StampDispenser() {
 
     }
@@ -44,7 +49,10 @@ public class StampDispenser {
     */
 
     public StampDispenser(int[] stampDenominations) {
+
         this.availableStamps = stampDenominations;
+        Arrays.sort(availableStamps); // O(n log n)
+
     }
 
     /**
@@ -55,19 +63,43 @@ public class StampDispenser {
      */
     public int calcMinNumStampsToFillRequest(int request)
     {
-        int row = availableStamps.length+1;
-        int column = request + 1;
+        int dpRow = availableStamps.length+1;
+        int dpColumn = request+1;
 
-        dp = new int[row][column];
+        int[][] dp = new int[dpRow][dpColumn];
 
-        // initialization
-        for(int i = 0; i < row; i++) {
-            for(int j = 0; j < column; j++) {
-                dp[i][j] = 0;
+        for(int i=0; i < dpRow; i++) {
+            dp[i][0] = 0;
+        }
+
+        for(int i = 0; i < dpColumn; i++) {
+            dp[0][i] = 0;
+        }
+
+        for(int i = 1; i <= availableStamps.length; i++) {
+            for (int j = 1; j <= request; j++) {
+
+                dp[i][j] = dp[i - 1][j];
+                if (j % availableStamps[i - 1] == 0)
+                    dp[i][j] = j / availableStamps[i - 1];
+                else
+                    dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1) ;
+
             }
         }
 
-        return 0;
+        // Display Matrix when debugMode is true.
+        if(debugMode) {
+            for (int i = 0; i < dpRow; i++) {
+                for (int j = 0; j < dpColumn; j++) {
+                    System.out.print("[" + i + "][" + j + "] = " + dp[i][j] + " ");
+                }
+                System.out.println();
+            }
+        }
+
+
+        return dp[dpRow-1][dpColumn-1];
     }
 
     public static void main(String[] args) {
@@ -75,6 +107,7 @@ public class StampDispenser {
         int[] denominations = { 90, 30, 24, 10 , 6, 2, 1 };
         StampDispenser stampDispenser = new StampDispenser(denominations);
         assert stampDispenser.calcMinNumStampsToFillRequest(18) == 3;
+        System.out.println(stampDispenser.calcMinNumStampsToFillRequest(18));
     }
 
 }
