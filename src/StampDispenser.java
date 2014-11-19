@@ -33,7 +33,7 @@ public class StampDispenser {
     private int[] availableStamps;
     private int[][] dp;
 
-    private boolean debugMode = false;
+    private boolean debugMode = true;
 
     public StampDispenser() {
 
@@ -108,6 +108,7 @@ public class StampDispenser {
         StampDispenser stampDispenser = new StampDispenser(denominations);
         assert stampDispenser.calcMinNumStampsToFillRequest(18) == 3;
         System.out.println(stampDispenser.calcMinNumStampsToFillRequest(18));
+        System.out.println(stampDispenser.calcMinNumStampsToFillRequest(34));
     }
 
 }
