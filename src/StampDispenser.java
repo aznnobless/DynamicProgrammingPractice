@@ -69,22 +69,23 @@ public class StampDispenser {
         int[][] dp = new int[dpRow][dpColumn];
 
         for(int i=0; i < dpRow; i++) {
-            dp[i][0] = 0;
+            dp[i][0] = 99999999;
         }
 
         for(int i = 0; i < dpColumn; i++) {
-            dp[0][i] = 0;
+            dp[0][i] = 99999999;
         }
 
         for(int i = 1; i <= availableStamps.length; i++) {
             for (int j = 1; j <= request; j++) {
-
                 dp[i][j] = dp[i - 1][j];
-                if (j % availableStamps[i - 1] == 0)
-                    dp[i][j] = j / availableStamps[i - 1];
-                else
-                    dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1) ;
-
+                if (request > availableStamps[i - 1]) {
+                    if (j % availableStamps[i - 1] == 0) {
+                        dp[i][j] = Math.min( (j / availableStamps[i - 1]), dp[i][j] );
+                    } else if (j > availableStamps[i - 1] && (j % availableStamps[i - 1] != 0)) {
+                        dp[i][j] = Math.min( (dp[i][j - availableStamps[i - 1]] + 1), dp[i][j] );
+                    }
+                }
             }
         }
 
@@ -107,6 +108,7 @@ public class StampDispenser {
         int[] denominations = { 90, 30, 24, 10 , 6, 2, 1 };
         StampDispenser stampDispenser = new StampDispenser(denominations);
         assert stampDispenser.calcMinNumStampsToFillRequest(18) == 3;
+
         System.out.println(stampDispenser.calcMinNumStampsToFillRequest(18));
         System.out.println(stampDispenser.calcMinNumStampsToFillRequest(34));
     }
