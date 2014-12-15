@@ -32,8 +32,12 @@ public class ZeroOneKnapsackTest {
                 dp[i][j] = dp[i-1][j];
                 if(j - weights[i-1] >= 0) {
                     dp[i][j] = Math.max(dp[i][j], dp[i-1][j-weights[i-1]] + values[i-1]);
+
                 }
+                System.out.print("[" + i + "," +  j + "] = " + dp[i][j]);
+
             }
+            System.out.println();
         }
 
         return dp[numberOfItems][maxWeight];

@@ -2,6 +2,7 @@
  * Created by aznnobless on 11/18/14.
  */
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -69,6 +70,47 @@ public class StampDispenser {
         int[][] dp = new int[dpRow][dpColumn];
 
         for(int i=0; i < dpRow; i++) {
+            dp[i][0] = Integer.MAX_VALUE;
+        }
+
+        for(int i = 0; i < dpColumn; i++) {
+            dp[0][i] = Integer.MAX_VALUE;
+        }
+
+        for(int i = 1; i <= availableStamps.length; i++) {
+            for (int j = 1; j <= request; j++) {
+                dp[i][j] = dp[i - 1][j];
+                if (request > availableStamps[i - 1]) {
+                    if (j % availableStamps[i - 1] == 0) {
+                        dp[i][j] = Math.min( (j / availableStamps[i - 1]), dp[i][j] );
+                    } else if (j > availableStamps[i - 1] && (j % availableStamps[i - 1] != 0)) {
+                        dp[i][j] = Math.min( (dp[i][j - availableStamps[i - 1]] + 1), dp[i][j] );
+                    }
+                }
+            }
+        }
+
+        // Display Matrix when debugMode is true.
+        if(debugMode) {
+            for (int i = 0; i < dpRow; i++) {
+                for (int j = 0; j < dpColumn; j++) {
+                    System.out.print("[" + i + "][" + j + "] = " + dp[i][j] + " ");
+                }
+                System.out.println();
+            }
+        }
+
+
+        return dp[dpRow-1][dpColumn-1];
+    }
+
+    public int[] getMinimumNumberOfStampList(int request) {
+        int dpRow = availableStamps.length+1;
+        int dpColumn = request+1;
+
+        int[][] dp = new int[dpRow][dpColumn];
+
+        for(int i=0; i < dpRow; i++) {
             dp[i][0] = 99999999;
         }
 
@@ -99,8 +141,32 @@ public class StampDispenser {
             }
         }
 
+        int rowTracker = dpRow - 1 ;
+        int columnTracker = dpColumn -1;
+        int current = dp[dpRow -1][dpColumn-1];
+        ArrayList<Integer> result = new ArrayList<Integer>();
 
-        return dp[dpRow-1][dpColumn-1];
+        while(current != 99999999  ) {
+
+            if(dp[rowTracker-1][columnTracker] == dp[rowTracker][columnTracker]) {
+                while(dp[rowTracker-1][columnTracker] == current) {
+                    rowTracker-=1;
+                }
+            }
+
+            columnTracker = columnTracker - availableStamps[rowTracker -1];
+            current = dp[rowTracker][columnTracker];
+            result.add(availableStamps[rowTracker-1]);
+
+        }
+
+        int[] resultToArray = new int[result.size()];
+        for(int index = 0; index < result.size(); index++) {
+           resultToArray[index] = result.get(index);
+           System.out.println(result.get(index));
+        }
+
+        return resultToArray;
     }
 
     public static void main(String[] args) {
@@ -110,7 +176,17 @@ public class StampDispenser {
         assert stampDispenser.calcMinNumStampsToFillRequest(18) == 3;
 
         System.out.println(stampDispenser.calcMinNumStampsToFillRequest(18));
-        System.out.println(stampDispenser.calcMinNumStampsToFillRequest(34));
+        //System.out.println(stampDispenser.calcMinNumStampsToFillRequest(34));
+
+        stampDispenser.getMinimumNumberOfStampList(34);
+
+        // added new test case.
+        int[] dpraCoins = {12,8, 27, 1};
+        StampDispenser coinDispenser = new StampDispenser(dpraCoins);
+
+        //System.out.println(coinDispenser.calcMinNumStampsToFillRequest(43));
+        //coinDispenser.getMinimumNumberOfStampList(43);
+
     }
 
 }

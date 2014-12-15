@@ -11,7 +11,7 @@ public class LongestCommonSubStringTest {
 
     public static void main(String[] args) {
 
-        System.out.println(LCS("string", "nstg"));
+        System.out.println(LCS("lullabybabies", "skullandbones"));
     }
 
     public static int LCS(String str1, String str2) {
@@ -36,7 +36,16 @@ public class LongestCommonSubStringTest {
             }
         }
 
+        for(int i = 0; i < dp.length ;i++) {
+            for(int j = 0; j< dp[1].length; j++) {
+                System.out.printf("[ %d , %d ] = %d ", i, j, dp[i][j]);
+            }
+            System.out.println();
+        }
+
+
         return dp[str1.length()][str2.length()];
+
     }
 
 }
